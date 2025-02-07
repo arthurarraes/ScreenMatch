@@ -2,13 +2,31 @@ package alura.ScreenMatch.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 public class Episodio {
     private Integer temporada;
     private String titulo;
-    private Integer numero;
-    private String avaliacao;
+    private Integer numeroEpisodio;
+    private Double avaliacao;
+    private LocalDate dataLancamento;
 
     public Episodio(Integer numeroTemporada, DadosEpisodio dadosEpisodio) {
+        this.temporada = numeroTemporada;
+        this.titulo = dadosEpisodio.titulo();
+        this.numeroEpisodio = dadosEpisodio.numero();
+
+        try{
+            this.avaliacao = Double.valueOf(dadosEpisodio.avaliacao());
+        } catch (NumberFormatException e){
+            this.avaliacao = 0.0;
+        }
+        try{
+            this.dataLancamento = getDataLancamento();
+        } catch (DateTimeParseException e){
+            this.dataLancamento = null;
+        }
     }
 
     public Integer getTemporada() {
@@ -30,31 +48,38 @@ public class Episodio {
     }
 
     public Integer getNumero() {
-        return numero;
+        return numeroEpisodio;
     }
 
     public Episodio setNumero(Integer numero) {
-        this.numero = numero;
+        this.numeroEpisodio = numero;
         return this;
     }
 
-    public String getAvaliacao() {
+    public Double getAvaliacao() {
         return avaliacao;
     }
 
-    public Episodio setAvaliacao(String avaliacao) {
+    public Episodio setAvaliacao(Double avaliacao) {
         this.avaliacao = avaliacao;
         return this;
     }
 
-    public String getDataLancamento() {
+    public LocalDate getDataLancamento() {
         return dataLancamento;
     }
 
-    public Episodio setDataLancamento(String dataLancamento) {
+    public Episodio setDataLancamento(LocalDate dataLancamento) {
         this.dataLancamento = dataLancamento;
         return this;
     }
 
-    private String dataLancamento;
+    @Override
+    public String toString() {
+        return  "temporada=" + temporada +
+                ", titulo='" + titulo + '\'' +
+                ", numeroEpisodio=" + numeroEpisodio +
+                ", avaliacao=" + avaliacao +
+                ", dataLancamento=" + dataLancamento;
+    }
 }
