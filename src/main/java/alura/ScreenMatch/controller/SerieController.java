@@ -1,5 +1,6 @@
 package alura.ScreenMatch.controller;
 
+import alura.ScreenMatch.dto.EpisodioDTO;
 import alura.ScreenMatch.dto.SerieDTO;
 import alura.ScreenMatch.model.Serie;
 import alura.ScreenMatch.service.SerieService;
@@ -31,7 +32,19 @@ public class SerieController {
         return servico.obterLancamentos();
     }
     @GetMapping("/{id}")
-        public SerieDTO obterPorId(@PathVariable Long id){
+    public SerieDTO obterPorId(@PathVariable Long id){
         return servico.obterPorId(id);
+    }
+    @GetMapping("/{id}/temporadas/todas")
+    public List<EpisodioDTO> obterTodasTemporadas(@PathVariable Long id){
+        return servico.obterTodasTemporadas(id);
+    }
+    @GetMapping("/{id}/temporadas/{numero}")
+    public List<EpisodioDTO> obterTemporadasPorNumero(@PathVariable Long id, @PathVariable Long numero){
+        return servico.obterTemporadasPorNumero(id, numero);
+    }
+    @GetMapping("/categoria/{nomeGenero}")
+    public List<SerieDTO> obterSeriesPorCategorias(@PathVariable String nomeGenero){
+        return servico.obterSeriesPorCategoria(nomeGenero);
     }
 }
